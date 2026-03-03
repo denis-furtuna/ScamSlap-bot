@@ -1,52 +1,53 @@
-# 🛡️ ScamSlap - Scutul Anti-Deepfake pentru Messenger
+# 🛡️ ScamSlap - The Anti-Deepfake Shield for Messenger
 
 <p align="center">
-  <b>Bodyguardul digital care îți protejează familia de fraudele realizate prin Inteligenta Artificială (Deepfakes) direct pe Facebook Messenger.</b>
+  <b>A digital bodyguard designed to protect your family from AI-generated frauds (Deepfakes) directly on Facebook Messenger.</b>
 </p>
 
 ---
 
-## 📸 Demonstrația de Forță (Suport Multi-Lingv)
+## 📸 Multilingual Force Demonstration
 
-ScamSlap este construit inteligent: **detectează automat limba setată pe telefonul bunicului** și îi răspunde în limba lui nativă. Nu trebuie să configurezi nimic, arma se calibrează singură!
+ScamSlap is built with intelligence: **it automatically detects the language set on the user's phone** and responds in their native tongue. No configuration needed—the weapon calibrates itself!
 
-Iată ScamSlap în acțiune, interceptând și analizând media în 3 limbi diferite:
+Here is ScamSlap in action, intercepting and analyzing media in 3 different languages:
 
-| 🇷🇴 Limba Română | 🇺🇸 Limba Engleză | 🇩🇪 Limba Germană |
+| 🇷🇴 Romanian | 🇺🇸 English | 🇩🇪 German |
 | :---: | :---: | :---: |
 | ![ScamSlap in Romanian](scamslap_ro.png) | ![ScamSlap in English](scamslap_en.png) | ![ScamSlap in German](scamslap_de.png) |
 
-*(Aici apar capturile de ecran reale din Messenger)*
+*(Real Messenger screenshots showing the analysis process)*
 
 ---
-<img width="482" height="143" alt="scamslap_de" src="https://github.com/user-attachments/assets/e07837c3-0309-4e93-8fe4-02242f638599" />
 
-## 🔥 De ce ScamSlap? (Misiunea Noastră)
+## 🔥 Why ScamSlap? (Our Mission)
 
-Scam-urile realizate prin Deepfake (video-uri false cu personalități, apeluri cu voci clonate) sunt tot mai greu de detectat cu ochiul liber, mai ales de către persoanele în vârstă. ScamSlap oferă o **linie de apărare instantanee**. Bunicul primește un Reel dubios? Îl dă „Share” către ScamSlap și primește verdictul în 30 de secunde!
+Deepfake scams (fake videos of celebrities, cloned voices, AI-generated images) are becoming increasingly difficult to detect with the naked eye, especially for the elderly. ScamSlap provides an **instant line of defense**. 
 
-## 🚀 Arsenalul Tehnic (Ce e sub capotă?)
+Did Grandpa receive a suspicious Reel? He just "Shares" it with ScamSlap and gets a verdict in 30 seconds. It's that simple.
 
-Am construit un sistem complex folosind tehnologii de ultimă oră pentru a asigura precizie și securitate:
+## 🚀 Technical Arsenal (Under the Hood)
 
-* **⚡ FastAPI & Render:** Un server backend ultra-rapid, găzduit în Cloud (Render), care stă de veghe 24/7.
-* **🧠 Sightengine API (GenAI Model):** Mercenarii noștri de elită în scanarea AI. Folosim modele avansate care analizează cadrele media pentru a detecta urme matematice de generare sintetică.
-* **Berbecul `yt-dlp`:** Un tool de efracție digitală care sparge barierele Facebook pentru a extrage link-urile brute (`.mp4`) din Reel-uri și Share-uri, permițând analizarea lor.
-* **🌐 Meta Graph API (Locale Detection):** Interogăm baza de date Meta pentru a afla limba utilizatorului în timp real.
-* **🔄 `deep-translator`:** Traducem verdictul în limba utilizatorului fix înainte ca glonțul să plece, pentru un impact maxim.
-* **🛡️ Arhitectură Securizată:** Toate cheile API sunt ascunse în Environment Variables pe Render, nu în cod.
+This system integrates cutting-edge technologies to ensure precision, speed, and security:
 
-## 🛠️ Cum funcționează?
+* **⚡ FastAPI & Render:** An ultra-fast Python backend hosted in the Cloud (Render), standing guard 24/7.
+* **🧠 Sightengine API (GenAI Model):** Our elite mercenaries for AI scanning. We use advanced models that analyze media frames for mathematical traces of synthetic generation.
+* **YT-DLP Battering Ram:** A digital breach tool that bypasses Facebook's walls to extract raw video links (`.mp4`) from Reels and Shares for deep analysis.
+* **🌐 Meta Graph API (Locale Detection):** We query the Meta database to identify the user's language in real-time.
+* **🔄 `deep-translator`:** We translate the verdict into the user's language right before the "bullet" is fired, ensuring maximum impact.
+* **🛡️ Secure Architecture:** All API keys are hidden in Environment Variables on Render—never hardcoded, never exposed.
 
-1.  **Interceptare:** Bunicul trimite o poză sau un Reel către pagina de Facebook Messenger.
-2.  **Triaj (Background Tasks):** Serverul FastAPI dă un răspuns instantaneu lui Facebook (`200 OK`) și trimite analiza grea în buncărul de procesare din fundal (pentru a evita duplicatele).
-3.  **Spargerea Seifului:** Dacă e un Reel, `yt-dlp` extrage fișierul video brut.
-4.  **Scanare Lunetistă:** Trimitem media la Sightengine cu parametri de eșantionare tactici (ex: un cadru la fiecare 5 secunde, limitat la 4 cadre) pentru a acoperi tot clipul optimizând bugetul de credite.
-5.  **Traducere & Verdict:** Traducem scorul (ex: 98% AI) într-un mesaj clar în limba bunicului și îl trimitem înapoi pe Messenger.
+## 🛠️ How It Works
+
+1.  **Interception:** The user sends a photo or a Reel to the ScamSlap Facebook Page.
+2.  **Triage (Background Tasks):** The FastAPI server sends an immediate response to Facebook (`200 OK`) and pushes the heavy lifting to a background worker (to prevent duplicate messages).
+3.  **Breaching the Vault:** If it's a Reel, `yt-dlp` extracts the direct video file.
+4.  **Sniper Scanning:** We send the media to Sightengine with tactical sampling parameters (e.g., one frame every 5 seconds, capped at 4 frames) to cover the whole clip while optimizing API credits.
+5.  **Translation & Verdict:** We translate the AI probability score (e.g., 98% AI) into a clear message in the user's language and send it back to Messenger.
 
 ---
 <p align="center">
-  Construit cu ❤️ pentru a proteja pe cei care ne-au crescut. 
-</p><img width="632" height="278" alt="scamslap_ro" src="https://github.com/user-attachments/assets/08e16218-dfa9-44fc-b3c4-65a7fabea8f0" />
-<img width="644" height="520" alt="scamslap_en" src="https://github.com/user-attachments/assets/561c69cc-3f24-4cda-9d9d-0a6ac6eea1dc" />
-![Uploading scamslap_de.png…]()
+  Built with ❤️ to protect those who raised us.
+</p><img width="632" height="278" alt="scamslap_ro" src="https://github.com/user-attachments/assets/cf5ce4fc-78fe-4fb8-b9e7-f50418b61048" />
+<img width="644" height="520" alt="scamslap_en" src="https://github.com/user-attachments/assets/be1c8434-aa77-4772-bb46-b05ce4dfd695" />
+<img width="482" height="143" alt="scamslap_de" src="https://github.com/user-attachments/assets/d7f96ca2-87bb-4c6d-82a6-102614194bd4" />
