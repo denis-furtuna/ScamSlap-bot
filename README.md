@@ -10,13 +10,13 @@
 
 ScamSlap is built with intelligence: **it automatically detects the language set on the user's phone** and responds in their native tongue. No configuration needed—the weapon calibrates itself!
 
-Here is ScamSlap in action, intercepting and analyzing media in 3 different languages:
+Here is ScamSlap in action, intercepting and analyzing media in 3 different languages. 
 
-| 🇷🇴 Romanian | 🇺🇸 English | 🇩🇪 German |
+| 🇷🇴 Romanian | 🇺🇸 English | 🇪🇸 Spanish |
 | :---: | :---: | :---: |
-| ![ScamSlap in Romanian](scamslap_ro.png) | ![ScamSlap in English](scamslap_en.png) | ![ScamSlap in German](scamslap_de.png) |
+| <img src="https://github.com/user-attachments/assets/cf5ce4fc-78fe-4fb8-b9e7-f50418b61048" width="280" /> | <img src="https://github.com/user-attachments/assets/be1c8434-aa77-4772-bb46-b05ce4dfd695" width="280" /> | <img src="https://github.com/user-attachments/assets/d7f96ca2-87bb-4c6d-82a6-102614194bd4" width="280" /> |
 
-*(Real Messenger screenshots showing the analysis process)*
+*(Real Messenger screenshots showing the analysis and interception process)*
 
 ---
 
@@ -32,7 +32,7 @@ This system integrates cutting-edge technologies to ensure precision, speed, and
 
 * **⚡ FastAPI & Render:** An ultra-fast Python backend hosted in the Cloud (Render), standing guard 24/7.
 * **🧠 Sightengine API (GenAI Model):** Our elite mercenaries for AI scanning. We use advanced models that analyze media frames for mathematical traces of synthetic generation.
-* **YT-DLP Battering Ram:** A digital breach tool that bypasses Facebook's walls to extract raw video links (`.mp4`) from Reels and Shares for deep analysis.
+* **🚧 YT-DLP Battering Ram:** A digital breach tool that bypasses Facebook's walls to extract raw video links (`.mp4`) from Reels and Shares for deep analysis.
 * **🌐 Meta Graph API (Locale Detection):** We query the Meta database to identify the user's language in real-time.
 * **🔄 `deep-translator`:** We translate the verdict into the user's language right before the "bullet" is fired, ensuring maximum impact.
 * **🛡️ Secure Architecture:** All API keys are hidden in Environment Variables on Render—never hardcoded, never exposed.
@@ -48,6 +48,4 @@ This system integrates cutting-edge technologies to ensure precision, speed, and
 ---
 <p align="center">
   Built with ❤️ to protect those who raised us.
-</p><img width="632" height="278" alt="scamslap_ro" src="https://github.com/user-attachments/assets/cf5ce4fc-78fe-4fb8-b9e7-f50418b61048" />
-<img width="644" height="520" alt="scamslap_en" src="https://github.com/user-attachments/assets/be1c8434-aa77-4772-bb46-b05ce4dfd695" />
-<img width="482" height="143" alt="scamslap_de" src="https://github.com/user-attachments/assets/d7f96ca2-87bb-4c6d-82a6-102614194bd4" />
+</p>
