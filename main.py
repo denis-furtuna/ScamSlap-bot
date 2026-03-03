@@ -2,15 +2,15 @@ import requests
 import yt_dlp
 from deep_translator import GoogleTranslator
 from fastapi import FastAPI, Request
+import os
 
 app = FastAPI()
 
 # --- ARSENALUL TĂU SECRET ---
-VERIFY_TOKEN = "SCAM_SLAP_SECRET_123"
-PAGE_ACCESS_TOKEN = "EAANaJv5FYHkBQ6wS18q8cpPar2lubrN8KkZBhTo68u5uKVtfhrlF3eazdohTTOKkm3jL2mpKpEhvGJPbLFnr5Wc5Wkn8oGDMgDc0FCoTJkZBZBilEfdZCHsKrkAtEnZBZATfRUpe9XLnZAlyGGRdeVqAuSY9CwfTmHlnGhoAe1RfUDzZC4KBNtRhTvCCBBggjGGMi4TOiAZDZD"
-
-SIGHTENGINE_USER = "619107887"
-SIGHTENGINE_SECRET = "qGKYpfRq7gAW49RcdTSiHikLayRJfPMa"
+PAGE_ACCESS_TOKEN = os.environ.get('PAGE_ACCESS_TOKEN')
+SIGHTENGINE_USER = os.environ.get('SIGHTENGINE_USER')
+SIGHTENGINE_SECRET = os.environ.get('SIGHTENGINE_SECRET')
+VERIFY_TOKEN = os.environ.get('SCAM_SLAP_SECRET')
 
 
 # -----------------------------
