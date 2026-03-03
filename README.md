@@ -1,37 +1,52 @@
-# 🛑 ScamSlap Bot
+# 🛡️ ScamSlap - Scutul Anti-Deepfake pentru Messenger
 
-**Your Grandpa's Digital Bodyguard Against AI Scams and Deepfakes on Facebook Messenger.**
-
-ScamSlap is an automated, cloud-hosted cybersecurity bot designed to protect vulnerable users (like the elderly) from modern internet scams, AI-generated images, and deepfake videos. You simply forward a suspicious image or Facebook Reel to the bot, and it neutralizes the threat by analyzing the media and replying with a clear verdict in the user's native language.
-
----
-
-## 🎯 The Mission
-Internet scams have evolved. Phishing links are now accompanied by highly realistic AI-generated faces, and fake celebrity endorsements are powered by deepfake video Reels. ScamSlap acts as a frontline defense system that sits directly inside Facebook Messenger, requiring zero technical knowledge from the end-user. 
-
-## ⚙️ Core Features
-
-* 📸 **Image AI Detection:** Scans images directly sent from the camera roll to detect AI anomalies.
-* 🎥 **Deepfake Video Slicing:** Extracts Facebook Reels, breaks them down frame-by-frame, and calculates the probability of AI generation.
-* 🪓 **CDN Wall Bypassing:** Uses `yt-dlp` to smash through Facebook's share links and extract the raw `.mp4` or `.jpg` files without requiring the user to take manual screenshots.
-* 🌍 **Tactical Auto-Translation:** Spies on the user's Facebook locale settings via the Graph API and translates the warning messages on the fly, replying in the exact language the user speaks.
-* ☁️ **Cloud-Native & Serverless:** Deployed 24/7 on Render, hooked directly to Meta's Webhooks.
-
-## 🛠️ Arsenal (Tech Stack)
-
-* **Python 3**
-* **FastAPI / Uvicorn** (Handling the Meta Webhook pipeline)
-* **yt-dlp** (Extracting raw media from Facebook share links)
-* **Sightengine API** (AI and Deepfake detection models)
-* **Deep-Translator** (Google Translate API for real-time localization)
-* **Meta Graph API** (Sending messages and extracting user locale)
-
-## 🚀 How It Works (The Pipeline)
-
-1. **Intercept:** The user sends a photo or shares a Reel to the ScamSlap Messenger page.
-2. **Extract:** The Python backend receives the webhook payload. If it's a restricted link, `yt-dlp` acts as a battering ram to extract the raw media URL.
-3. **Analyze:** The raw media is sent to Sightengine's servers. Videos are analyzed frame-by-frame.
-4. **Translate & Fire:** The bot queries Meta for the sender's language, translates the verdict, and shoots the final warning back to the user's chat.
+<p align="center">
+  <b>Bodyguardul digital care îți protejează familia de fraudele realizate prin Inteligenta Artificială (Deepfakes) direct pe Facebook Messenger.</b>
+</p>
 
 ---
-*Built with grit, Python, and zero tolerance for internet scammers.* 💥
+
+## 📸 Demonstrația de Forță (Suport Multi-Lingv)
+
+ScamSlap este construit inteligent: **detectează automat limba setată pe telefonul bunicului** și îi răspunde în limba lui nativă. Nu trebuie să configurezi nimic, arma se calibrează singură!
+
+Iată ScamSlap în acțiune, interceptând și analizând media în 3 limbi diferite:
+
+| 🇷🇴 Limba Română | 🇺🇸 Limba Engleză | 🇩🇪 Limba Germană |
+| :---: | :---: | :---: |
+| ![ScamSlap in Romanian](scamslap_ro.png) | ![ScamSlap in English](scamslap_en.png) | ![ScamSlap in German](scamslap_de.png) |
+
+*(Aici apar capturile de ecran reale din Messenger)*
+
+---
+<img width="482" height="143" alt="scamslap_de" src="https://github.com/user-attachments/assets/e07837c3-0309-4e93-8fe4-02242f638599" />
+
+## 🔥 De ce ScamSlap? (Misiunea Noastră)
+
+Scam-urile realizate prin Deepfake (video-uri false cu personalități, apeluri cu voci clonate) sunt tot mai greu de detectat cu ochiul liber, mai ales de către persoanele în vârstă. ScamSlap oferă o **linie de apărare instantanee**. Bunicul primește un Reel dubios? Îl dă „Share” către ScamSlap și primește verdictul în 30 de secunde!
+
+## 🚀 Arsenalul Tehnic (Ce e sub capotă?)
+
+Am construit un sistem complex folosind tehnologii de ultimă oră pentru a asigura precizie și securitate:
+
+* **⚡ FastAPI & Render:** Un server backend ultra-rapid, găzduit în Cloud (Render), care stă de veghe 24/7.
+* **🧠 Sightengine API (GenAI Model):** Mercenarii noștri de elită în scanarea AI. Folosim modele avansate care analizează cadrele media pentru a detecta urme matematice de generare sintetică.
+* **Berbecul `yt-dlp`:** Un tool de efracție digitală care sparge barierele Facebook pentru a extrage link-urile brute (`.mp4`) din Reel-uri și Share-uri, permițând analizarea lor.
+* **🌐 Meta Graph API (Locale Detection):** Interogăm baza de date Meta pentru a afla limba utilizatorului în timp real.
+* **🔄 `deep-translator`:** Traducem verdictul în limba utilizatorului fix înainte ca glonțul să plece, pentru un impact maxim.
+* **🛡️ Arhitectură Securizată:** Toate cheile API sunt ascunse în Environment Variables pe Render, nu în cod.
+
+## 🛠️ Cum funcționează?
+
+1.  **Interceptare:** Bunicul trimite o poză sau un Reel către pagina de Facebook Messenger.
+2.  **Triaj (Background Tasks):** Serverul FastAPI dă un răspuns instantaneu lui Facebook (`200 OK`) și trimite analiza grea în buncărul de procesare din fundal (pentru a evita duplicatele).
+3.  **Spargerea Seifului:** Dacă e un Reel, `yt-dlp` extrage fișierul video brut.
+4.  **Scanare Lunetistă:** Trimitem media la Sightengine cu parametri de eșantionare tactici (ex: un cadru la fiecare 5 secunde, limitat la 4 cadre) pentru a acoperi tot clipul optimizând bugetul de credite.
+5.  **Traducere & Verdict:** Traducem scorul (ex: 98% AI) într-un mesaj clar în limba bunicului și îl trimitem înapoi pe Messenger.
+
+---
+<p align="center">
+  Construit cu ❤️ pentru a proteja pe cei care ne-au crescut. 
+</p><img width="632" height="278" alt="scamslap_ro" src="https://github.com/user-attachments/assets/08e16218-dfa9-44fc-b3c4-65a7fabea8f0" />
+<img width="644" height="520" alt="scamslap_en" src="https://github.com/user-attachments/assets/561c69cc-3f24-4cda-9d9d-0a6ac6eea1dc" />
+![Uploading scamslap_de.png…]()
