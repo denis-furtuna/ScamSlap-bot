@@ -1,12 +1,12 @@
+import os
 import requests
 import yt_dlp
 from deep_translator import GoogleTranslator
-from fastapi import FastAPI, Request
-import os
+from fastapi import FastAPI, Request, BackgroundTasks, Response
 
 app = FastAPI()
 
-# --- ARSENALUL TĂU SECRET ---
+# --- ARSENALUL TĂU SECRET (Securizat în Cloud!) ---
 PAGE_ACCESS_TOKEN = os.environ.get('PAGE_ACCESS_TOKEN')
 SIGHTENGINE_USER = os.environ.get('SIGHTENGINE_USER')
 SIGHTENGINE_SECRET = os.environ.get('SIGHTENGINE_SECRET')
@@ -20,7 +20,6 @@ def trimite_mesaj_facebook(sender_id, text_mesaj):
     url_spion = f"https://graph.facebook.com/{sender_id}?fields=locale&access_token={PAGE_ACCESS_TOKEN}"
     try:
         date_spion = requests.get(url_spion).json()
-        # Ne dă ceva de genul 'en_US'. Noi tăiem și luăm doar 'en' (primele două)
         limba_tinta = date_spion.get('locale', 'ro_RO').split('_')[0]
     except Exception as e:
         print(f"⚠️ Spionajul a eșuat. Mergem pe default (Română).")
@@ -47,8 +46,8 @@ def trimite_mesaj_facebook(sender_id, text_mesaj):
 def extrage_link_brut(url_share):
     print(f"⏳ Punem berbecul pe poarta: {url_share}")
     optiuni = {
-        'quiet': True,      # Să nu facă gălăgie în terminal
-        'format': 'best',   # Vrem calitatea maximă disponibilă
+        'quiet': True,
+        'format': 'best',
     }
     try:
         with yt_dlp.YoutubeDL(optiuni) as ydl:
@@ -72,7 +71,6 @@ def analizeaza_poza(url_poza):
     try:
         raspuns = requests.get(api_url, params=parametri)
         date = raspuns.json()
-
         scor_fake = date['type']['ai_generated'] * 100
 
         if scor_fake > 75:
@@ -97,15 +95,12 @@ def analizeaza_video(url_video):
         raspuns = requests.get(api_url, params=parametri)
         date = raspuns.json()
 
-        # --- RADARUL REPARAT (FĂRĂ ORBIRE!) ---
         print("\n--- CE A ZIS MERCENARUL SIGHTENGINE ---")
         print(date)
         print("---------------------------------------\n")
 
-        # Căutăm cadrele
         if 'data' in date and 'frames' in date['data']:
             scor_maxim_fake = 0
-
             for cadru in date['data']['frames']:
                 if 'type' in cadru and 'ai_generated' in cadru['type']:
                     scor_curent = cadru['type']['ai_generated'] * 100
@@ -117,7 +112,6 @@ def analizeaza_video(url_video):
             else:
                 return f"✅ Videoclip CURAT! Șansa de AI este maxim {scor_maxim_fake:.2f}%. Pare complet real!"
         else:
-            # Dacă Sightengine ne dă eroare, o extragem și i-o arătăm bunicului!
             motiv_eroare = date.get('error', {}).get('message', 'Zuckerberg a blocat accesul mercenarului.')
             return f"⚠️ Buncărul de analiză a refuzat clipul! Motiv: {motiv_eroare}"
 
@@ -125,6 +119,57 @@ def analizeaza_video(url_video):
         print(f"💥 Eroare letală la video: {e}")
         return "⚠️ Arma s-a blocat total la scanarea videoclipului!"
 
+
+# =====================================================================
+# 🛠️ NOUA UNITATE DE PROCESARE ÎN FUNDAL (MUNCITORUL)
+# =====================================================================
+def proceseaza_mesaj_greu(date):
+    print("\n🚨 --- MUNCITORUL A PRELUAT PACHETUL ÎN BUNCĂR --- 🚨")
+    try:
+        for entry in date.get("entry", []):
+            for mesaj in entry.get("messaging", []):
+                sender_id = mesaj["sender"]["id"]
+
+                if "message" in mesaj and "attachments" in mesaj["message"]:
+                    for attach in mesaj["message"]["attachments"]:
+                        tip_atasament = attach["type"]
+
+                        if tip_atasament == "image":
+                            url_poza = attach["payload"]["url"]
+                            print(f"Țintă vizuală detectată: {url_poza}")
+                            trimite_mesaj_facebook(sender_id, "🕵️‍♂️ Scanez poza pentru falsuri... Așteaptă!")
+                            rezultat_scanare = analizeaza_poza(url_poza)
+                            trimite_mesaj_facebook(sender_id, rezultat_scanare)
+
+                        elif tip_atasament in ["reel", "share", "video"]:
+                            url_share = attach["payload"]["url"]
+                            print(f"Link complex detectat: {url_share}")
+                            trimite_mesaj_facebook(sender_id,
+                                                   "🚧 Am detectat un link protejat de Facebook! Scot berbecul de asalt să sparg seiful...")
+                            link_curat = extrage_link_brut(url_share)
+
+                            if link_curat:
+                                print(f"VICTORIE! Link-ul brut este: {link_curat}")
+                                if ".mp4" in link_curat or tip_atasament in ["reel", "video"]:
+                                    trimite_mesaj_facebook(sender_id,
+                                                           "🎥 Am spart seiful și am extras videoclipul! Îl trimit la laboratorul de Deepfake (poate dura câteva zeci de secunde, ai răbdare)...")
+                                    rezultat_scanare = analizeaza_video(link_curat)
+                                    trimite_mesaj_facebook(sender_id, rezultat_scanare)
+                                else:
+                                    trimite_mesaj_facebook(sender_id,
+                                                           "📸 Am smuls poza ascunsă din postare! O trimit direct la scanare...")
+                                    rezultat_scanare = analizeaza_poza(link_curat)
+                                    trimite_mesaj_facebook(sender_id, rezultat_scanare)
+                            else:
+                                trimite_mesaj_facebook(sender_id,
+                                                       "💀 Misiune eșuată. Zidul a fost prea gros pentru berbecul meu. Încearcă să îi faci o captură de ecran!")
+    except Exception as e:
+        print(f"💥 Eroare gravă în buncărul de procesare: {e}")
+
+
+# =====================================================================
+# 📡 RADARUL PRINCIPAL (WEBHOOK-UL BLINDAT)
+# =====================================================================
 @app.get("/webhook")
 def verifica_webhook(request: Request):
     token = request.query_params.get("hub.verify_token")
@@ -135,62 +180,16 @@ def verifica_webhook(request: Request):
 
 
 @app.post("/webhook")
-async def primeste_mesaj(request: Request):
+async def primeste_mesaj(request: Request, background_tasks: BackgroundTasks):
     date = await request.json()
-    print("\n🚨 --- PACHET NOU INTERCEPTAT --- 🚨")
-    print(date)
-    print("------------------------------------\n")
-    try:
-        if date["object"] == "page":
-            for entry in date["entry"]:
-                for mesaj in entry["messaging"]:
-                    sender_id = mesaj["sender"]["id"]
 
-                    if "message" in mesaj and "attachments" in mesaj["message"]:
-                        for attach in mesaj["message"]["attachments"]:
-                            for attach in mesaj["message"]["attachments"]:
-                                tip_atasament = attach["type"]
+    # Dacă mesajul vine de la o pagină (nu e spam)
+    if date.get("object") == "page":
+        # 1. Trimitem misiunea grea către "Muncitor" în fundal
+        background_tasks.add_task(proceseaza_mesaj_greu, date)
 
-                                if tip_atasament == "image":
-                                    url_poza = attach["payload"]["url"]
-                                    print(f"Țintă vizuală detectată: {url_poza}")
-                                    trimite_mesaj_facebook(sender_id, "🕵️‍♂️ Scanez poza pentru falsuri... Așteaptă!")
-                                    rezultat_scanare = analizeaza_poza(url_poza)
-                                    trimite_mesaj_facebook(sender_id, rezultat_scanare)
+        # 2. Îi închidem ușa lui Zuckerberg instantaneu ca să nu trimită duplicate!
+        return Response(content="EVENT_RECEIVED", media_type="text/plain", status_code=200)
 
-
-                                elif tip_atasament in ["reel", "share", "video"]:
-
-                                    url_share = attach["payload"]["url"]
-
-                                    print(f"Link complex detectat: {url_share}")
-
-                                    trimite_mesaj_facebook(sender_id,
-                                                           "🚧 Am detectat un link protejat de Facebook! Scot berbecul de asalt să sparg seiful...")
-
-                                    # Aplicăm berbecul de asalt yt-dlp
-                                    link_curat = extrage_link_brut(url_share)
-
-                                    if link_curat:
-                                        print(f"VICTORIE! Link-ul brut este: {link_curat}")
-
-                                        # Triajul muniției: E video sau poză?
-                                        if ".mp4" in link_curat or tip_atasament in ["reel", "video"]:
-                                            trimite_mesaj_facebook(sender_id,
-                                                                   "🎥 Am spart seiful și am extras videoclipul! Îl trimit la laboratorul de Deepfake (poate dura câteva zeci de secunde, ai răbdare)...")
-                                            rezultat_scanare = analizeaza_video(link_curat)
-                                            trimite_mesaj_facebook(sender_id, rezultat_scanare)
-
-                                        else:
-                                            trimite_mesaj_facebook(sender_id,
-                                                                   "📸 Am smuls poza ascunsă din postare! O trimit direct la scanare...")
-                                            rezultat_scanare = analizeaza_poza(link_curat)
-                                            trimite_mesaj_facebook(sender_id, rezultat_scanare)
-
-                                    else:
-                                        trimite_mesaj_facebook(sender_id,
-                                                               "💀 Misiune eșuată. Zidul a fost prea gros pentru berbecul meu. Încearcă să îi faci o captură de ecran!")
-    except Exception as e:
-        print(f"Eroare: {e}")
-
-    return "OK"
+    # Dacă e un pachet ciudat, îl respingem scurt
+    return Response(content="NOT_A_PAGE_EVENT", status_code=404)
