@@ -89,7 +89,6 @@ def analizeaza_video(url_video):
         'api_user': SIGHTENGINE_USER,
         'api_secret': SIGHTENGINE_SECRET,
         'stream_url': url_video,
-        'limit': 4  # 🛑 Oprește-te după 4 gloanțe trase
     }
 
     try:
