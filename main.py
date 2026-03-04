@@ -89,7 +89,6 @@ def analizeaza_video(url_video):
         'api_user': SIGHTENGINE_USER,
         'api_secret': SIGHTENGINE_SECRET,
         'stream_url': url_video,
-        'interval': 5.0,  # ⏱️ Trage un glonț (scanează un cadru) la fiecare 5 secunde
         'limit': 4  # 🛑 Oprește-te după 4 gloanțe trase
     }
 
